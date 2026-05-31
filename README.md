@@ -51,8 +51,22 @@ AI models under the **FWFT** directive must strictly avoid conversational filler
 
 ## 🛠️ Usage & Integration
 
-### Loading as an Antigravity/Gemini Developer Skill
-To use this directive as a project skill in your environment, place the `skill/fwft-core` directory inside your project's active workspace or skills path. 
+### Global Installation (Antigravity/Gemini IDE)
+
+To make the **FWFT** skill available across all your workspaces globally, copy the `fwft-core` directory into your global configuration folder:
+
+**Windows (PowerShell):**
+```powershell
+Copy-Item -Recurse -Force ".\skill\fwft-core" "$env:USERPROFILE\.gemini\config\skills\fwft-core"
+```
+
+**macOS / Linux:**
+```bash
+cp -r ./skill/fwft-core ~/.gemini/config/skills/fwft-core
+```
+
+### Local Workspace Integration
+To use this directive as a local project skill in a specific workspace, place the `skill/fwft-core` directory inside your project's active workspace or skills path and add it to your configuration: 
 
 ```json
 {
