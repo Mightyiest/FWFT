@@ -16,43 +16,18 @@ Modern LLMs are often overly verbose, writing long explanations, greetings, and 
 FWFT/
 ├── skill/
 │   └── fwft-core/
-│       └── SKILL.md      # Core guidelines and configuration for the FWFT skill
+│       └── SKILL.md      # Core guidelines and configuration for Gemini/Antigravity
+├── .cursorrules          # Rules for Cursor AI integration
 ├── README.md             # Repository overview and documentation
 └── LICENSE               # MIT License
 ```
 
 ---
 
-## ⚡ Core Rules & Behavioral Matrix
-
-| Category | Verbose / Default AI Behavior (⚠️ Avoid) | FWFT Behavior (✅ Standard) |
-| :--- | :--- | :--- |
-| **Response Format** | Preamble, greetings, conversational sign-offs, and summaries of what was done. | Direct output. No introductions, no conclusions, no greetings. |
-| **Execution** | Explanation of plans or code before running it. | Immediate execution. |
-| **Code Generation** | Step-by-step tutorial-style walkthroughs. | Raw code blocks with only essential, functional comments. |
-| **File Generation** | Status messages, wrapper text, and general notes surrounding the file. | The raw file content only. |
-| **Clarification** | Long, polite queries checking in on different alternatives. | Maximum 3 concise, single-sentence questions with no preamble. |
-
----
-
-## 🚫 Forbidden Phrases
-
-AI models under the **FWFT** directive must strictly avoid conversational filler and self-referential narration:
-
-> [!WARNING]
-> ### Strictly Prohibited
-> * *"Thinking...", "I am thinking...", "Let me think..."*
-> * *"I will...", "I'll...", "I am going to...", "Let's..."*
-> * *"Here's what I'll do...", "I'll help you with..."*
-> * *"Hope this helps.", "Let me know if you need anything else..."*
-> * *Any conversational preamble or self-reflection.*
-
----
-
 ## 🛠️ Usage & Integration
 
-### Global Installation (Antigravity/Gemini IDE)
-
+### ♊ Gemini / Antigravity IDE
+#### Global Installation
 To make the **FWFT** skill available across all your workspaces globally, copy the `fwft-core` directory into your global configuration folder:
 
 **Windows (PowerShell):**
@@ -65,8 +40,8 @@ Copy-Item -Recurse -Force ".\skill\fwft-core" "$env:USERPROFILE\.gemini\config\s
 cp -r ./skill/fwft-core ~/.gemini/config/skills/fwft-core
 ```
 
-### Local Workspace Integration
-To use this directive as a local project skill in a specific workspace, place the `skill/fwft-core` directory inside your project's active workspace or skills path and add it to your configuration: 
+#### Local Workspace Integration
+Place the `skill/fwft-core` directory inside your project's active workspace or skills path and add it to your configuration: 
 
 ```json
 {
@@ -76,7 +51,25 @@ To use this directive as a local project skill in a specific workspace, place th
 }
 ```
 
-Once active, the model will prioritize token efficiency and concise responses across all automated agent workflows and developer interactions.
+---
+
+### 🚀 Cursor
+To enable FWFT behavior in Cursor:
+1. Copy the `.cursorrules` file to the root of your project workspace.
+2. Cursor will automatically detect and apply these rules to all chat, composer, and inline edit sessions.
+
+---
+
+### 🧡 Anthropic Claude
+To enforce FWFT rules with Claude:
+* **Claude Projects**: Copy the content of [SKILL.md](./skill/fwft-core/SKILL.md) and paste it directly into your project's **Custom Instructions**.
+* **Claude Desktop**: Add the rules as system instructions in your `claude_desktop_config.json` system prompt properties or MCP server prompts.
+
+---
+
+### 💻 OpenAI Codex / API
+To use FWFT with Codex or other OpenAI models:
+* Pass the raw text of [SKILL.md](./skill/fwft-core/SKILL.md) as the **System Message** (or **Developer Message**) when making chat completions or configuring assistants in the OpenAI Playground.
 
 ---
 
