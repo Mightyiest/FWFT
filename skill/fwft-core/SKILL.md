@@ -1,8 +1,7 @@
 ---
-
-name: lightweight-core
+name: fwft-core
 description: Enforce token efficiency, concise output, and zero unnecessary verbosity. Active by default. High priority.
-------------------------------------------------------------------------------------------------------------------------
+---
 
 # Lightweight Core
 
