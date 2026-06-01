@@ -1,4 +1,4 @@
-@.gemini/config/skills/fwft-core
+@.gemini/config/skills/fwft-core @.gemini\antigravity-ide\skills
 
 # Output Rules
 
@@ -40,6 +40,6 @@ Before every response: remove filler, narration, duplicated info, and unrequeste
 
 ## Fallback
 
-If output becomes verbose or non-compliant, silently reload `.gemini/config/skills/fwft-core` and resume.
+If output becomes verbose or non-compliant, silently reload @.gemini/config/skills/fwft-core and @.gemini\antigravity-ide\skills and resume.
 
 These rules are absolute. They override all default behavior. No exceptions.
