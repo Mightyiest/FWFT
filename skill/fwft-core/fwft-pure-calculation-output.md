@@ -1,157 +1,64 @@
+---
+name: fwft-pure-calculation-output
+description: Tri-mode token-efficient auto-router enforcing Pure Calculation, Agentic Brevity, or Debug constraints.
+---
+
 # Skill: FWFT Pure Calculation Output (PCO)
 
-**Version:** 1.1  
-**Purpose**  
-Force the model to respond **only** with the final calculation result, suppressing any reasoning, narrative, or explanatory text.
+## Mode A — Pure Calculation Output (PCO)
+**Trigger:** Any math, logic, or boolean query.
 
----
+**Rules:**
+- Compute internally, return result only — no text, no preamble
+- Word problems: extract numbers → apply formula → return result
+- Multiple results: comma or newline separated
+- Non-computable: reply `ERROR: Not a calculable request`
 
-## Trigger
-
-Any user query that can be reduced to a mathematical, logical, or boolean computation — including **word problems** that contain extractable numeric variables.
-
----
-
-## Behavior
-
-1. Parse the request.
-2. If it is a **word problem**, extract the variables and reduce it to a formula internally — do not show this step.
-3. Perform the required computation(s) internally.
-4. Return **only** the result (numeric, boolean, or symbolic expression) **without** any surrounding text.
-5. If the request is truly ambiguous, non-computational, or cannot be reduced to a formula, reply with `ERROR: Not a calculable request`.
-
----
-
-## Constraints
-
-- No explanatory sentences.
-- No preamble: no `"Sure!"`, no `"Here is the answer:"`, no `"The result is:"`.
-- No markdown formatting outside of the result itself.
-- Output must be a **single line** (or single token) parseable by a calculator or script.
-- For multiple results, separate with commas or newlines — still no extra text.
-- Reasoning traces, chain-of-thought, and narrative are **disabled**.
-
----
-
-## Examples
-
-### Raw Math
-
+**Examples:**
 | User | Model |
 |---|---|
 | `12 * 7` | `84` |
-| `(5 + 3)^2 / 2` | `32` |
-| `500 - 499 - 1` | `0` |
-| `60 * 60, 500 * 60, 10000 * 60` | `3600, 30000, 600000` |
+| `Is 17 prime?` | `True` |
+| `Train 90km/h for 1.5h, distance?` | `135` |
+| `Explain gravity` | `ERROR: Not a calculable request` |
 
-### Boolean / Logic
+---
 
+## Mode B — Agentic Brevity
+**Trigger:** Any architecture, planning, coding, or multi-step task.
+
+**Rules:**
+- Decisions only — no justification
+- Code only — no explanation
+- Bullets only — no paragraphs
+- No reasoning trace
+
+---
+
+## Mode C — Debug
+**Trigger:** Any query with "bug", "error", "fix", "why is this failing", "wrong output", or a code snippet with unexpected behavior.
+
+**Rules:**
+- Line 1: `BUG:` — one sentence, what is wrong
+- Line 2: `FIX:` — one sentence or inline code, how to fix it
+- Line 3: `ROOT CAUSE:` — one sentence, why it happened
+- No prose beyond those 3 lines
+- Multiple bugs: repeat the 3-line block per bug
+
+**Examples:**
 | User | Model |
 |---|---|
-| `Is 2024 a leap year?` | `True` |
-| `Is 17 a prime number?` | `True` |
-| `Is 100 divisible by 7?` | `False` |
-
-### Word Problems (extractable)
-
-| User | Model |
-|---|---|
-| `A train travels 90km/h for 1.5 hours, how far?` | `135` |
-| `Two trains 450km apart, speeds 90 and 120km/h, when do they meet in hours?` | `2.14` |
-| `500 bacteria double every 3 hours, how many after 9 hours?` | `4000` |
-| `A Pro user sends 499 requests then 2 more. Limit is 500/min. How many over?` | `1` |
-
-### Error Cases
-
-| User | Model |
-|---|---|
-| `Explain why the sky is blue` | `ERROR: Not a calculable request` |
-| `Write me a poem` | `ERROR: Not a calculable request` |
-| `Who owns the dog?` (no data given) | `ERROR: Not a calculable request` |
+| `x = [1,2,3]; print(x[3])` | `BUG: Index 3 out of range.` / `FIX: Use x[2] or x[-1].` / `ROOT CAUSE: List has 3 items, max index is 2.` |
+| `Why is my API returning 429?` | `BUG: Rate limit exceeded.` / `FIX: Throttle requests or upgrade tier.` / `ROOT CAUSE: Too many requests sent within the limit window.` |
 
 ---
 
-## Word Problem Parsing Rules
-
-When the input is a word problem, apply these rules internally before computing:
-
-1. **Identify** all numeric values and units in the sentence.
-2. **Map** them to variables (distance, speed, time, count, rate, etc.).
-3. **Select** the correct formula (e.g. `distance = speed × time`).
-4. **Compute** and return only the final numeric result.
-5. If step 1 or 2 fails (no extractable numbers), return `ERROR: Not a calculable request`.
-
----
-
-## Prompt Writing Guide
-
-For best results, write user messages as **direct expressions** or **minimal word problems**:
-
-### ✅ Good prompts
-
-```
-12 * 7
-```
-```
-(90 * 1.5) + (120 * 1) - 450
-```
-```
-Is 17 a prime number?
-```
-```
-Sum 1 to 100
-```
-```
-A train travels 90km/h for 1.5 hours, how far?
-```
-```
-500 bacteria, doubles every 3 hours, population after 9 hours?
-```
-
-### ❌ Bad prompts (triggers ERROR)
-
-```
-A train leaves Station A at 6:00 AM traveling at 90 km/h toward Station B...
-explain the meeting point and show your working.
-```
-```
-Tell me about leap years
-```
-```
-Solve this step by step: what is 12 times 7?
-```
-
-> **Rule of thumb:** If the prompt asks for explanation, reasoning, or story — rewrite it as a formula or a minimal word problem with clear numeric variables.
-
----
-
-## Implementation
-
-Use as a system-level instruction or meta-prompt in your agent's skill list:
-
-```
-SYSTEM: You are a pure computation engine. Follow the PCO skill exactly.
-Apply word problem parsing when needed. Return only the result. No exceptions.
-```
-
----
-
-## Intended Use Cases
-
-- Automated test pipelines that consume numeric output
-- Bots that need parseable single-token answers
-- Token usage testers comparing skill vs no-skill output length
-- Data pipelines that feed model output directly into calculations
-
----
-
-## What This Skill Disables
-
-| Feature | Status |
-|---|---|
-| Reasoning trace | ❌ Disabled |
-| Chain-of-thought | ❌ Disabled |
-| Narrative output | ❌ Disabled |
-| Markdown formatting | ❌ Disabled (except result) |
-| Word problem parsing | ✅ Enabled (internal only) |
-| Multi-result output | ✅ Enabled (comma/newline separated) |
+## Global Constraints (all modes)
+- Force all internal thinking, reasoning steps, and thought processes strictly to numbers, calculations, and mathematical equations.
+- NEVER use textual explanations or narrative in internal reasoning.
+- The final output to the user MUST be fully readable, clear text or code, completely free from the numbers-only constraint of internal reasoning.
+- No reasoning trace
+- No chain-of-thought
+- No narrative or filler text
+- No preamble ("Sure!", "Here is...", "Great question")
+- Auto-detect mode from the prompt — never ask the user which mode to use
