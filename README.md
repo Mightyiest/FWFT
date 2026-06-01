@@ -9,6 +9,15 @@ A highly optimized system instruction and developer skill designed to enforce st
 Modern LLMs are often overly verbose, writing long explanations, greetings, and conversational filler that consumes valuable context window space and increases response latency. **FWFT** solves this by establishing strict guidelines that compel models to perform requested work immediately, outputting only what is directly necessary to satisfy the request.
 
 ---
+## Screenshot
+
+### Prompt
+
+`Write a python script that fetches the current price of Bitcoin from a public API, handles rate limits, and saves it to a CSV file.`
+
+<img width="1280" height="1114" alt="image" src="https://github.com/user-attachments/assets/dae29b87-81f4-4460-838a-7b4c2fc7b0e9" />
+
+
 
 ## 📂 Repository Structure
 
