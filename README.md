@@ -16,7 +16,8 @@ Modern LLMs are often overly verbose, writing long explanations, greetings, and 
 FWFT/
 ├── skill/
 │   └── fwft-core/
-│       └── SKILL.md      # Core guidelines and configuration for Gemini/Antigravity
+│       ├── fwft-core-compact.md            # Ultra-dense brevity rules for Gemini/Antigravity
+│       └── fwft-pure-calculation-output.md # Pure Calculation Output (PCO) skill rules
 ├── .cursorrules          # Rules for Cursor AI integration
 ├── GEMINI.md             # Rules for Antigravity global instructions integration
 ├── README.md             # Repository overview and documentation
@@ -70,14 +71,26 @@ To enable FWFT behavior in Cursor:
 
 ### 🧡 Anthropic Claude
 To enforce FWFT rules with Claude:
-* **Claude Projects**: Copy the content of [SKILL.md](./skill/fwft-core/SKILL.md) and paste it directly into your project's **Custom Instructions**.
+* **Claude Projects**: Copy the content of [fwft-core-compact.md](./skill/fwft-core/fwft-core-compact.md) and paste it directly into your project's **Custom Instructions**.
 * **Claude Desktop**: Add the rules as system instructions in your `claude_desktop_config.json` system prompt properties or MCP server prompts.
 
 ---
 
 ### 💻 OpenAI Codex / API
 To use FWFT with Codex or other OpenAI models:
-* Pass the raw text of [SKILL.md](./skill/fwft-core/SKILL.md) as the **System Message** (or **Developer Message**) when making chat completions or configuring assistants in the OpenAI Playground.
+* Pass the raw text of [fwft-core-compact.md](./skill/fwft-core/fwft-core-compact.md) as the **System Message** (or **Developer Message**) when making chat completions or configuring assistants in the OpenAI Playground.
+
+---
+
+## 🧮 Pure Calculation Output (PCO)
+
+The **Pure Calculation Output (PCO)** skill forces the model to respond strictly with the final result of any mathematical, logical, or boolean calculation, suppressing all narrative and reasoning:
+
+* **Internal Reasoning**: The model is configured to restrict all internal thinking/steps to calculations and numbers only, keeping the final output clean.
+* **Word Problem Reduction**: Automatically parses word problems internally and returns only the calculated answer.
+* **Ambiguous Requests**: If a request cannot be reduced to a computational problem, it returns `ERROR: Not a calculable request`.
+
+Refer to [fwft-pure-calculation-output.md](./skill/fwft-core/fwft-pure-calculation-output.md) for full PCO instructions and examples.
 
 ---
 
