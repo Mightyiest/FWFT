@@ -17,6 +17,16 @@ Modern LLMs are often overly verbose, writing long explanations, greetings, and 
 
 <img width="1280" height="1114" alt="image" src="https://github.com/user-attachments/assets/dae29b87-81f4-4460-838a-7b4c2fc7b0e9" />
 
+## Antigravity Prompt Comparison
+
+| Feature | With Skill | Without Skill |
+|----------|-----------|--------------|
+| Screenshot | <img height="300" alt="With Skill" src="https://github.com/user-attachments/assets/cb584a51-68b3-4644-93fa-f5e7542dae2d" /> | <img height="300" alt="Without Skill" src="https://github.com/user-attachments/assets/cfee6687-d3ea-4f47-9b0a-f3265098f236" /> |
+| Configuration | Antigravity + Skill | Antigravity Only |
+| Purpose | Enhanced capability through skill injection | Baseline Antigravity prompt behavior |
+
+
+
 
 
 ## 📂 Repository Structure
