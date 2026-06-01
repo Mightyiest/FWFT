@@ -18,6 +18,7 @@ FWFT/
 │   └── fwft-core/
 │       └── SKILL.md      # Core guidelines and configuration for Gemini/Antigravity
 ├── .cursorrules          # Rules for Cursor AI integration
+├── GEMINI.md             # Rules for Antigravity global instructions integration
 ├── README.md             # Repository overview and documentation
 └── LICENSE               # MIT License
 ```
@@ -27,7 +28,14 @@ FWFT/
 ## 🛠️ Usage & Integration
 
 ### ♊ Gemini / Antigravity IDE
-#### Global Installation
+#### Global System Instructions (GEMINI.md)
+To configure global default system instructions in **Antigravity IDE**:
+1. Copy the [GEMINI.md](./GEMINI.md) file to your user profile directory:
+   * **Windows (PowerShell):** `Copy-Item ".\GEMINI.md" "$env:USERPROFILE\.gemini\GEMINI.md"`
+   * **macOS / Linux:** `cp ./GEMINI.md ~/.gemini/GEMINI.md`
+2. Restart the IDE or initiate a new session to load these global instructions automatically.
+
+#### Global Skill Installation
 To make the **FWFT** skill available across all your workspaces globally, copy the `fwft-core` directory into your global configuration folder:
 
 **Windows (PowerShell):**
